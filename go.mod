@@ -4,6 +4,8 @@ go 1.22.6
 
 require gorm.io/driver/postgres v1.5.9
 
+require github.com/stretchr/objx v0.5.2 // indirect
+
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/andybalholm/brotli v1.1.1 // indirect

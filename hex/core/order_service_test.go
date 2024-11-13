@@ -1,6 +1,7 @@
 package core
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -41,5 +42,18 @@ func TestCreateOrder(t *testing.T) {
 		err := service.CreateOrder(Order{Total: -10})
 		assert.Error(t, err)
 		assert.Equal(t, "total must be positive", err.Error())
+	})
+
+	t.Run("repository error", func(t *testing.T) {
+		repo := &mockOrderRepository{
+			saveFunc: func(order Order) error {
+				return errors.New("database error")
+			},
+		}
+		service := NewOrderService(repo)
+
+		err := service.CreateOrder(Order{Total: 10})
+		assert.Error(t, err)
+		assert.Equal(t, "database error", err.Error())
 	})
 }
